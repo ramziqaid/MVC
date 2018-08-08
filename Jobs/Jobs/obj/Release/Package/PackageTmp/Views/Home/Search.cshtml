@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Jobs.Models.Job>
+
+ 
+<div class="row "  >
+    @{
+        if (ViewBag.Result == null)
+        {
+            foreach (var sub in Model)
+            {
+
+                <div class="col-md-4">
+                    <img src="~/Uploads/@Html.DisplayFor(model => sub.JobImgPath)" class="thumbnail" style="height:200px;width:250px;" />
+                    <h5>     @Html.DisplayFor(modelItem => sub.JobTitle)</h5>
+                    <h5>     @Html.DisplayFor(modelItem => sub.JobDescription)</h5>
+                    @Html.ActionLink("تفاصيل", "Details", "Home", new { id = sub.Id }, new { @class = "btn btn-primary" })
+                </div>
+
+
+            }
+
+        }
+        else
+        {
+            <div class="alert alert-success">
+                <a href="#" class="alert-link">@ViewBag.Result</a>.
+            </div>
+        }
+    }
+</div>

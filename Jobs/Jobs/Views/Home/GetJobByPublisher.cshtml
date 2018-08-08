@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Jobs.Models.JobsViewModel>
+
+
+@foreach (var item in Model)
+{
+    <h3> @item.JobTitle</h3>
+    <table class="table table-responsive table-bordered table-striped table-hover">
+        <tr>
+            <th>   اسم الشخص    </th>
+            <th> نص الرسالة   </th>
+            <th> التاريخ  </th>
+        </tr>
+
+        @foreach (var p in item.Items)
+        {
+            <tr>
+                <td>@p.User.UserName</td>
+                <td style="max-width:500px;">
+                    @p.Message
+                </td>
+                <td>@p.ApplyDate</td>
+            </tr>
+        }
+    </table>
+}
+
+

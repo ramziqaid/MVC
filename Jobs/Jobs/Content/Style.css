@@ -1,0 +1,34 @@
+﻿@font-face {
+    font-family: 'Royal';
+    src: url('../fonts/ROYAL.TTF');
+}
+@font-face {
+    font-family: 'GE_SS';
+    src: url('../fonts/GE_SS_Unique_Light_1.otf');
+}
+@font-face {
+    font-family: 'MO';
+    src: url('../fonts/MOLarabicRegular.ttf');
+}
+body {
+    font-family: GE_SS;
+}
+.navbar-inverse {
+    background-color: #428bca;
+   font-weight:bold;
+}
+    .navbar-inverse .navbar-nav > li > a {
+        color: white;
+    }
+    .navbar-inverse .navbar-brand {
+        color: white;
+    }
+#search{
+    width:200px;
+}
+.myFooter {
+    background-color: #428bca;
+    font-family: MO;
+    padding-top: 40px;
+    color: white;
+}

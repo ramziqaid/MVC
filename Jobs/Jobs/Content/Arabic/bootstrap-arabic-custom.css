@@ -1,0 +1,166 @@
+﻿/*
+body
+{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.navbar
+{
+    margin-bottom: 20px;
+}
+*/
+
+body
+{
+    padding-top: 140px;
+}
+
+
+/* begin submenu appear when Click */
+
+.marginBottom-0
+{
+    margin-bottom: 0;
+}
+.dropdown-submenu
+{
+    position: relative;
+}
+.dropdown-submenu > .dropdown-menu
+{
+    top: 0;
+    right: 100%;
+    margin-top: -6px;
+    margin-right: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu > a:after
+{
+    display: block;
+    content: " ";
+    float: left;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 5px 5px 0;
+    border-right-color: #cccccc;
+    margin-top: 5px;
+    margin-left: -10px;
+}
+.dropdown-submenu:hover > a:after
+{
+    border-right-color: #555;
+}
+.dropdown-submenu.pull-left
+{
+    float: none;
+}
+.dropdown-submenu.pull-left > .dropdown-menu
+{
+    right: -100%;
+    margin-right: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+
+/* end submenu appear when Click */
+
+
+/* begin submenu appear when hover */
+
+/*
+        .dropdown-submenu
+        {
+            position: relative;
+        }
+        
+        .dropdown-submenu > .dropdown-menu
+        {
+            top: 0;
+            right: 100%;
+            margin-top: -6px;
+            margin-right: -1px;
+            -webkit-border-radius: 0 6px 6px 6px;
+            -moz-border-radius: 0 6px 6px;
+            border-radius: 0 6px 6px 6px;
+        }
+
+        .dropdown-submenu:hover > .dropdown-menu
+        {
+            display: block;
+        }
+        
+        .dropdown-submenu > a:after
+        {
+            display: block;
+            content: " ";
+            float: left;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+            border-width: 5px 5px 5px 0;
+            border-right-color: #ccc;
+            margin-top: 5px;
+            margin-left: -10px;
+        }
+        
+        .dropdown-submenu:hover > a:after
+        {
+            border-right-color: #fff;
+        }
+        
+        .dropdown-submenu.pull-left
+        {
+            float: none;
+        }
+        
+        .dropdown-submenu.pull-left > .dropdown-menu
+        {
+            right: -100%;
+            margin-right: 10px;
+            -webkit-border-radius: 6px 0 6px 6px;
+            -moz-border-radius: 6px 0 6px 6px;
+            border-radius: 6px 0 6px 6px;
+        }
+        */
+
+/* end submenu appear when hover */
+
+
+
+.radio label, .checkbox label, .radio-inline label, .checkbox-inline label
+{
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.btn-radio label, .btn-checkbox label
+{
+    font-weight: 400;
+    cursor: pointer;
+}
+
+
+.sidebar
+{
+    margin-top:-10px;
+    position: fixed;
+    border-left: 3px solid #eee;
+    height: 100%;
+}
+
+@media (max-width: 767px)
+{
+    .sidebar
+    {
+        margin-top:0px;
+        position: inherit;
+        border-left: 0px solid #eee;
+    }
+}

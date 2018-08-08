@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Jobs.Models.CategoryViewModels>
+
+@{
+    /**/
+
+
+
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h2>مرحبا بك عزيزي الزائر</h2>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="well well-sm">
+        <h3 class="text-danger">     @Html.DisplayFor(modelItem => item.CategoryName)</h3>
+        <br />
+        <h5>     @Html.DisplayFor(modelItem => item.CategoryDescription)</h5>
+    </div>
+    <div class="row " style="clear:both;">
+        @foreach (var sub in item.Jobs)
+        {
+
+            <div class="col-md-4">
+                <img src="~/Uploads/@Html.DisplayFor(model => sub.JobImgPath)" class="thumbnail" style="height:200px;width:250px;" />
+                <h5>     @Html.DisplayFor(modelItem => sub.JobTitle)</h5>
+                <h5>     @Html.DisplayFor(modelItem => sub.JobDescription)</h5>
+                @Html.ActionLink("تفاصيل", "Details", "Home", new { id = sub.Id }, new { @class = "btn btn-primary" })
+            </div>
+
+
+        }
+    </div>
+}
+
