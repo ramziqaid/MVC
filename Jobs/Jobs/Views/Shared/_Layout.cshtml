@@ -6,7 +6,8 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+    <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -38,28 +39,23 @@
                     <li>@Html.ActionLink("الصلاحيات", "Index", "Roles")</li>
                     <li>@Html.ActionLink("حولنا", "About", "Home")</li>
                     <li>@Html.ActionLink("تواصل معنا", "Contact", "Home")</li>
-                    <li> 
+                    <li>
+                        @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "form-inline" }))
+                        {
+                            <input type="text" name="search" id="search" class="form-control" placeholder="ابحث هنا" />
+                            <button class="btn btn-success" type="submit">بحث</button>
 
-                            @using (Html.BeginForm("Search", "Home", FormMethod.Post,new { @class="form-inline"}))
-                            {
-                                <input type="text" name="search" id="search" class="form-control" placeholder="ابحث هنا" />
-                                <button class="btn btn-success" type="submit">بحث</button>
-                                
-                            }
-                       
+                        }
+
                     </li>
-
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
-
         </div>
     </div>
     <div class="container body-content" style="min-height:600px;">
         @RenderBody()
         <hr />
-
-        
 
     </div>
     <footer class=" myFooter container-fluid">
@@ -91,9 +87,10 @@
             </div>
         </div>
     </footer>
-    
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/alertify.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

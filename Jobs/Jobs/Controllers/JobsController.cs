@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Jobs.Models;
 using System.IO;
 using Microsoft.AspNet.Identity;
+using System.Net.Http;
 
 namespace Jobs.Controllers
 {
@@ -19,25 +20,54 @@ namespace Jobs.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Jobs
-        public async Task<ActionResult> Index()
+        public  ActionResult Index()
         {
-            var jobs = db.Jobs.Include(j => j.Category);
-            return View(await jobs.ToListAsync());
+            IEnumerable<Job> jobs = null;
+            HttpResponseMessage result = GlobalVaribales.WebApiClient.GetAsync("Jobs").Result;
+
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<IEnumerable<Job>>();
+                readTask.Wait();
+
+                jobs = readTask.Result;
+            }
+            else //web api sent error response 
+            {
+
+                jobs = Enumerable.Empty<Job>();
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
+           // return View(jobs);
+
+           // var jobs = db.Jobs.Include(j => j.Category);
+            return View(  jobs);
         }
 
         // GET: Jobs/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
+            Job job = null; 
+
+            var postTask = GlobalVaribales.WebApiClient.GetAsync("Jobs/" + id.ToString());
+            postTask.Wait();
+            var result = postTask.Result;
+
+            if (result.IsSuccessStatusCode)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var readTask = result.Content.ReadAsAsync<Job>();
+                readTask.Wait();
+
+                job =   readTask.Result;
             }
-            Job job = await db.Jobs.FindAsync(id);
-            if (job == null)
+            else //web api sent error response 
             {
-                return HttpNotFound();
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
             }
-            return View(job);
+            return View(  job);
+ 
         }
 
         // GET: Jobs/Create
@@ -59,13 +89,24 @@ namespace Jobs.Controllers
                 job.JobImgPath = upload.FileName;
                 upload.SaveAs(Path.Combine(Server.MapPath("~/Uploads"), upload.FileName));
                 job.UserId = User.Identity.GetUserId();
-                db.Jobs.Add(job);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
+                //db.Jobs.Add(job);
+                //await db.SaveChangesAsync();
+               // return RedirectToAction("Index");
 
+                var postTask = GlobalVaribales.WebApiClient.PostAsJsonAsync("Jobs", job);
+                postTask.Wait();
+
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    TempData["Message"] = "تم حفظ الوظيفة!";
+                    return RedirectToAction("Index");
+                }
+            }
+            ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
             ViewBag.CategoryID = new SelectList(db.CategoryViewModels, "Id", "CategoryName", job.CategoryID);
             return View(job);
+             
         }
 
         // GET: Jobs/Edit/5
@@ -75,11 +116,25 @@ namespace Jobs.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Job job = await db.Jobs.FindAsync(id);
-            if (job == null)
+            
+            Job job = null;
+
+            var postTask = GlobalVaribales.WebApiClient.GetAsync("Jobs/" + id.ToString());
+            postTask.Wait();
+            var result = postTask.Result;
+
+            if (result.IsSuccessStatusCode)
             {
-                return HttpNotFound();
+                var readTask = result.Content.ReadAsAsync<Job>();
+                readTask.Wait();
+
+                job = readTask.Result;
             }
+            else //web api sent error response 
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+            
             ViewBag.CategoryID = new SelectList(db.CategoryViewModels, "Id", "CategoryName", job.CategoryID);
             return View(job);
         }
@@ -106,10 +161,18 @@ namespace Jobs.Controllers
                 {
 
                 }
+                var postTask = GlobalVaribales.WebApiClient.PutAsJsonAsync("Jobs", job);
+                postTask.Wait();
 
-                db.Entry(job).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    TempData["Message"] = "تم حفظ التعديل!";
+                    return RedirectToAction("Index");
+                }
+                //db.Entry(job).State = EntityState.Modified;
+                //await db.SaveChangesAsync();
+                //return RedirectToAction("Index");
             }
             ViewBag.CategoryID = new SelectList(db.CategoryViewModels, "Id", "CategoryName", job.CategoryID);
             return View(job);
@@ -122,11 +185,18 @@ namespace Jobs.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Job job = await db.Jobs.FindAsync(id);
-            if (job == null)
+            Job job = null;
+            var postTask = GlobalVaribales.WebApiClient.GetAsync("Jobs/" + id.ToString());
+            postTask.Wait();
+            var result = postTask.Result;
+
+            if (result.IsSuccessStatusCode)
             {
-                return HttpNotFound();
-            }
+                var readTask = result.Content.ReadAsAsync<Job>();
+                readTask.Wait();
+
+                job = readTask.Result;
+            } 
             return View(job);
         }
 
@@ -135,9 +205,20 @@ namespace Jobs.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Job job = await db.Jobs.FindAsync(id);
-            db.Jobs.Remove(job);
-            await db.SaveChangesAsync();
+
+            var postTask = GlobalVaribales.WebApiClient.DeleteAsync("Jobs/" + id.ToString());
+            postTask.Wait();
+
+            var result = postTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            else //web api sent error response 
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
             return RedirectToAction("Index");
         }
 

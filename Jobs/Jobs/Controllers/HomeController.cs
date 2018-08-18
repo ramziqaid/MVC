@@ -16,8 +16,8 @@ namespace Jobs.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
-
-            return View(db.CategoryViewModels.ToList());
+            var cat = db.CategoryViewModels.ToList();
+            return View(cat);
         }
         // GET: Jobs/Details/5
         public ActionResult Details(int id)
