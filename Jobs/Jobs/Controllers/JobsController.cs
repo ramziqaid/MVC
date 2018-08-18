@@ -212,6 +212,7 @@ namespace Jobs.Controllers
             var result = postTask.Result;
             if (result.IsSuccessStatusCode)
             {
+                TempData["Message"] = "تم الحذف!";
                 return RedirectToAction("Index");
             }
             else //web api sent error response 
